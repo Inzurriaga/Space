@@ -12,6 +12,7 @@ import jupiter from "../3DModels/jupiter.gltf";
 import saturn from "../3DModels/saturn.gltf";
 import uranus from "../3DModels/uranus.gltf";
 import neptune from "../3DModels/neptune.gltf";
+import Particles from "react-particles-js";
 
 export default class App extends Component {
 
@@ -34,17 +35,18 @@ export default class App extends Component {
 
     // creating the camera
     this.camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 10000 );
-    this.camera.position.set( 2, 0, 1 );
+    this.camera.position.set( 5, 5, 5 );
 
     // creating light
     this.light = new THREE.AmbientLight( 0xffffff, 3.3 );
     this.scene.add(this.light);
 
     // creating a renderer
-    this.renderer = new THREE.WebGLRenderer( {antialias:true} );
+    this.renderer = new THREE.WebGLRenderer( {antialias:true, alpha: true} );
     this.renderer.gammaFactor = 1;
     this.renderer.gammaOutput = true;
     this.renderer.setSize( width, height );
+    this.renderer.setClearColor(0xffffff, 0);
     this.mount.appendChild( this.renderer.domElement );
 
     // creating orbit controls
@@ -171,9 +173,35 @@ export default class App extends Component {
 
   render() {
     return (
-      <div className="App"  
-        style={{ width: window.innerWidth, height: window.innerHeight }} 
-        ref={mount => {this.mount = mount}}>
+      <div style={{ width: window.innerWidth, height: window.innerHeight, backgroundColor: "#000000"}} >
+        <div className="App"  
+          style={{ width: window.innerWidth, height: window.innerHeight, position: "absolute", zIndex: 2 }} 
+          ref={mount => {this.mount = mount}}>
+        </div>
+        <Particles  style={{position: "absolute", zIndex: 1}} params={{
+            "particles": {
+                "number": {
+                    "value": 400
+                },
+                "size": {
+                    "value": 1
+                },
+                "line_linked": {
+                  "enable": false
+                },
+                "opacity": {
+                  "value": 1,
+                  "anim": {
+                    "enable": true,
+                    "speed": 4,
+                    
+                  }
+                },
+                "move": {
+                  "speed": 0.2
+                }
+            }
+        }}/>
       </div>
     );
   }
