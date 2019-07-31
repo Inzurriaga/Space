@@ -38,7 +38,7 @@ export default class App extends Component {
 
     // creating the camera
     this.camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 10000 );
-    this.camera.position.set( 10, 40, 10 );
+    this.camera.position.set( 40, 40, 10 );
 
     // creating light
     this.light = new THREE.HemisphereLight( 0xffffff, 0xffffff, 1.5 );
@@ -254,18 +254,18 @@ export default class App extends Component {
 
   uranusOrbit = () => {
     this.uranus.position.set(
-      Math.cos((Date.now() + 13) * 0.00012) * 68,
+      Math.cos((Date.now() + 1100) * 0.00012) * 68,
       0,
-      Math.sin((Date.now() + 13) * 0.00012) * 48
+      Math.sin((Date.now() + 1100) * 0.00012) * 48
     );
   }
 
 
   neptuneOrbit = () => {
     this.neptune.position.set(
-      Math.cos(Date.now() * 0.0001) * 80,
+      Math.cos(Date.now() * 0.00005) * 80,
       0,
-      Math.sin(Date.now() * 0.0001) * 54
+      Math.sin(Date.now() * 0.00005) * 54
     );
   }
 
