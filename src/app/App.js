@@ -15,11 +15,8 @@ import neptune from "../3DModels/neptune.gltf";
 import Particles from "react-particles-js";
 
 export default class App extends Component {
-
-  componentDidMount() {
-    // grabbing the height and width of the div and setting global var
-    const width = this.mount.clientWidth;
-    const height = this.mount.clientHeight;
+  constructor() {
+    super();
     this.sun = null;
     this.mercury = null;
     this.venus = null;
@@ -29,6 +26,12 @@ export default class App extends Component {
     this.saturn = null;
     this.uranus = null;
     this.neptune = null;
+  }
+
+  componentDidMount() {
+    // grabbing the height and width of the div and setting global var
+    const width = this.mount.clientWidth;
+    const height = this.mount.clientHeight;
 
     // creating the scene 
     this.scene = new THREE.Scene();
@@ -52,6 +55,8 @@ export default class App extends Component {
     // creating orbit controls
     this.orbitControls = new OrbitControls( this.camera, this.renderer.domElement )
     this.orbitControls.addEventListener("change", () => this.renderer.render(this.scene, this.camera));
+    this.orbitControls.minDistance = 10;
+    this.orbitControls.maxDistance = 50;
 
 
     const size = 10;
@@ -59,116 +64,205 @@ export default class App extends Component {
     const gridHelper = new THREE.GridHelper( size, divisions );
     this.scene.add( gridHelper );
 
+    // creating loading manager
+    this.manager = new THREE.LoadingManager();
+    this.manager.onLoad = () =>  {
+      this.startAnimation();
+    };
+
     // creating loader
-    const loader = new GLTFLoader()
+    const loader = new GLTFLoader( this.manager );
 
     // loading in sun model
     loader.load(sun, gltf => {
-      this.scene.add(gltf.scene)
+      this.scene.add(gltf.scene);
       if(gltf.scene) {
-        this.sun = gltf.scene
-        this.renderer.render(this.scene, this.camera)
+        this.sun = gltf.scene;
+        this.renderer.render(this.scene, this.camera);
       }else {
-        console.log("sun model did not load")
+        console.log("sun model did not load");
       }
     }, undefined, error => console.log("error"));
 
     // loading in mercury model
     loader.load(mercury, gltf => {
-      this.scene.add(gltf.scene)
+      this.scene.add(gltf.scene);
       if(gltf.scene) {
-        this.mercury = gltf.scene
-        this.mercury.position.x = 2
-        this.renderer.render(this.scene, this.camera)
+        this.mercury = gltf.scene;
+        this.mercury.position.x = 2;
+        this.renderer.render(this.scene, this.camera);
       }else {
-        console.log("mercury model did not load")
+        console.log("mercury model did not load");
       }
     }, undefined, error => console.log("error"));
 
     // loading in venus model
     loader.load(venus, gltf => {
-      this.scene.add(gltf.scene)
+      this.scene.add(gltf.scene);
       if(gltf.scene) {
-        this.venus = gltf.scene
-        this.venus.position.x = 4
-        this.renderer.render(this.scene, this.camera)
+        this.venus = gltf.scene;
+        this.venus.position.x = 4;
+        this.renderer.render(this.scene, this.camera);
       }else {
-        console.log("venus model did not load")
+        console.log("venus model did not load");
       }
     }, undefined, error => console.log("error"));
 
     // loading in earth model
     loader.load(earth, gltf => {
-      this.scene.add(gltf.scene)
+      this.scene.add(gltf.scene);
       if(gltf.scene) {
-        this.earth = gltf.scene
-        this.earth.position.x = 6
-        this.renderer.render(this.scene, this.camera)
+        this.earth = gltf.scene;
+        this.earth.position.x = 6;
+        this.renderer.render(this.scene, this.camera);
       }else {
-        console.log("earth model did not load")
+        console.log("earth model did not load");
       }
     }, undefined, error => console.log("error"));
 
     // loading in mars model
     loader.load(mars, gltf => {
-      this.scene.add(gltf.scene)
+      this.scene.add(gltf.scene);
       if(gltf.scene) {
-        this.mars = gltf.scene
-        this.mars.position.x = 8
-        this.renderer.render(this.scene, this.camera)
+        this.mars = gltf.scene;
+        this.mars.position.x = 8;
+        this.renderer.render(this.scene, this.camera);
       }else {
-        console.log("mars model did not load")
+        console.log("mars model did not load");
       }
     }, undefined, error => console.log("error"));
 
     // loading in jupiter
     loader.load(jupiter, gltf => {
-      this.scene.add(gltf.scene)
+      this.scene.add(gltf.scene);
       if(gltf.scene) {
-        this.jupiter = gltf.scene
-        this.jupiter.position.x = 10
-        this.renderer.render(this.scene, this.camera)
+        this.jupiter = gltf.scene;
+        this.jupiter.position.x = 10;
+        this.renderer.render(this.scene, this.camera);
       }else {
-        console.log("jupiter model did not load")
+        console.log("jupiter model did not load");
       }
     }, undefined, error => console.log("error"));
 
     // loading in saturn
     loader.load(saturn, gltf => {
-      this.scene.add(gltf.scene)
+      this.scene.add(gltf.scene);
       if(gltf.scene) {
-        this.saturn = gltf.scene
-        this.saturn.position.x = 12
-        this.renderer.render(this.scene, this.camera)
+        this.saturn = gltf.scene;
+        this.saturn.position.x = 12;
+        this.renderer.render(this.scene, this.camera);
       }else {
-        console.log("saturn model did not load")
+        console.log("saturn model did not load");
       }
     }, undefined, error => console.log("error"));
 
     // loading in uranus
     loader.load(uranus, gltf => {
-      this.scene.add(gltf.scene)
+      this.scene.add(gltf.scene);
       if(gltf.scene) {
-        this.uranus = gltf.scene
-        this.uranus.position.x = 14
-        this.renderer.render(this.scene, this.camera)
+        this.uranus = gltf.scene;
+        this.uranus.position.x = 14;
+        this.renderer.render(this.scene, this.camera);
       }else {
-        console.log("uranus model did not load")
+        console.log("uranus model did not load");
       }
     }, undefined, error => console.log("error"));
 
     // loading in neptune
     loader.load(neptune, gltf => {
-      this.scene.add(gltf.scene)
+      this.scene.add(gltf.scene);
       if(gltf.scene) {
-        this.neptune = gltf.scene
-        this.neptune.position.x = 16
-        this.renderer.render(this.scene, this.camera)
+        this.neptune = gltf.scene;
+        this.neptune.position.x = 16;
+        this.renderer.render(this.scene, this.camera);
       }else {
-        console.log("neptune model did not load")
+        console.log("neptune model did not load");
       }
     }, undefined, error => console.log("error"));
 
+  }
+
+  startAnimation = () => {
+    requestAnimationFrame(this.startAnimation);
+    this.mercuryOrbit();
+    this.venusOrbit();
+    this.earthOrbit();
+    this.marsOrbit();
+    this.jupiterOrbit();
+    this.saturnOrbit();
+    this.uranusOrbit();
+    this.neptuneOrbit();
+    this.renderer.render(this.scene, this.camera);
+  }
+
+  mercuryOrbit() {
+    this.mercury.position.set(
+      Math.cos(Date.now() * 0.001) * 5,
+      0,
+      Math.sin(Date.now() * 0.001) * 10
+    );
+  }
+
+  venusOrbit = () => {
+    this.venus.position.set(
+      Math.cos(Date.now() * 0.001) * 10,
+      0,
+      Math.sin(Date.now() * 0.001) * 15
+    );
+  }
+
+
+  earthOrbit = () => {
+    this.earth.position.set(
+      Math.cos(Date.now() * 0.001) * 15,
+      0,
+      Math.sin(Date.now() * 0.001) * 20
+    );
+  }
+
+
+  marsOrbit = () => {
+    this.mars.position.set(
+      Math.cos(Date.now() * 0.001) * 20,
+      0,
+      Math.sin(Date.now() * 0.001) * 25
+    );
+  }
+
+
+  jupiterOrbit = () => {
+    this.jupiter.position.set(
+      Math.cos(Date.now() * 0.001) * 25,
+      0,
+      Math.sin(Date.now() * 0.001) * 30
+    );
+  }
+
+
+  saturnOrbit = () => {
+    this.saturn.position.set(
+      Math.cos(Date.now() * 0.001) * 30,
+      0,
+      Math.sin(Date.now() * 0.001) * 35
+    );
+  }
+
+
+  uranusOrbit = () => {
+    this.uranus.position.set(
+      Math.cos(Date.now() * 0.001) * 35,
+      0,
+      Math.sin(Date.now() * 0.001) * 40
+    );
+  }
+
+
+  neptuneOrbit = () => {
+    this.neptune.position.set(
+      Math.cos(Date.now() * 0.001) * 40,
+      0,
+      Math.sin(Date.now() * 0.001) * 45
+    );
   }
 
   render() {
