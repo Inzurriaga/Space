@@ -38,15 +38,18 @@ export default class App extends Component {
 
     // creating the camera
     this.camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 10000 );
-    this.camera.position.set( 5, 5, 5 );
+    this.camera.position.set( 10, 40, 10 );
 
     // creating light
-    this.light = new THREE.AmbientLight( 0xffffff, 3.3 );
-    this.scene.add(this.light);
+    this.light = new THREE.HemisphereLight( 0xffffff, 0xffffff, 1.5 );
+    this.light.position.set( 0, 100, 0 );
+    this.light.castShadow = false;
+    this.scene.add( this.light );
 
     // creating a renderer
     this.renderer = new THREE.WebGLRenderer( {antialias:true, alpha: true} );
     this.renderer.gammaFactor = 1;
+    this.renderer.gammaInput = true;
     this.renderer.gammaOutput = true;
     this.renderer.setSize( width, height );
     this.renderer.setClearColor(0xffffff, 0);
@@ -56,13 +59,7 @@ export default class App extends Component {
     this.orbitControls = new OrbitControls( this.camera, this.renderer.domElement )
     this.orbitControls.addEventListener("change", () => this.renderer.render(this.scene, this.camera));
     this.orbitControls.minDistance = 10;
-    this.orbitControls.maxDistance = 50;
-
-
-    const size = 10;
-    const divisions = 30;
-    const gridHelper = new THREE.GridHelper( size, divisions );
-    this.scene.add( gridHelper );
+    this.orbitControls.maxDistance = 80;
 
     // creating loading manager
     this.manager = new THREE.LoadingManager();
@@ -78,6 +75,7 @@ export default class App extends Component {
       this.scene.add(gltf.scene);
       if(gltf.scene) {
         this.sun = gltf.scene;
+        this.sun.scale.set( 4, 4, 4 )
         this.renderer.render(this.scene, this.camera);
       }else {
         console.log("sun model did not load");
@@ -90,6 +88,7 @@ export default class App extends Component {
       if(gltf.scene) {
         this.mercury = gltf.scene;
         this.mercury.position.x = 2;
+        this.mercury.scale.set( 0.5, 0.5, 0.5 )
         this.renderer.render(this.scene, this.camera);
       }else {
         console.log("mercury model did not load");
@@ -126,6 +125,7 @@ export default class App extends Component {
       if(gltf.scene) {
         this.mars = gltf.scene;
         this.mars.position.x = 8;
+        this.mars.scale.set( 0.8, 0.8, 0.8 )
         this.renderer.render(this.scene, this.camera);
       }else {
         console.log("mars model did not load");
@@ -138,6 +138,7 @@ export default class App extends Component {
       if(gltf.scene) {
         this.jupiter = gltf.scene;
         this.jupiter.position.x = 10;
+        this.jupiter.scale.set( 3, 3, 3 )
         this.renderer.render(this.scene, this.camera);
       }else {
         console.log("jupiter model did not load");
@@ -150,6 +151,7 @@ export default class App extends Component {
       if(gltf.scene) {
         this.saturn = gltf.scene;
         this.saturn.position.x = 12;
+        this.saturn.scale.set( 2.8, 2.8, 2.8 )
         this.renderer.render(this.scene, this.camera);
       }else {
         console.log("saturn model did not load");
@@ -162,6 +164,7 @@ export default class App extends Component {
       if(gltf.scene) {
         this.uranus = gltf.scene;
         this.uranus.position.x = 14;
+        this.uranus.scale.set( 2, 2, 2 )
         this.renderer.render(this.scene, this.camera);
       }else {
         console.log("uranus model did not load");
@@ -174,6 +177,7 @@ export default class App extends Component {
       if(gltf.scene) {
         this.neptune = gltf.scene;
         this.neptune.position.x = 16;
+        this.neptune.scale.set( 2, 2, 2 )
         this.renderer.render(this.scene, this.camera);
       }else {
         console.log("neptune model did not load");
@@ -197,71 +201,71 @@ export default class App extends Component {
 
   mercuryOrbit() {
     this.mercury.position.set(
-      Math.cos(Date.now() * 0.001) * 5,
+      Math.cos(Date.now() * 0.002) * 7,
       0,
-      Math.sin(Date.now() * 0.001) * 10
+      Math.sin(Date.now() * 0.002) * 5
     );
   }
 
   venusOrbit = () => {
     this.venus.position.set(
-      Math.cos(Date.now() * 0.001) * 10,
+      Math.cos(Date.now() * 0.001) * 12,
       0,
-      Math.sin(Date.now() * 0.001) * 15
+      Math.sin(Date.now() * 0.001) * 8
     );
   }
 
 
   earthOrbit = () => {
     this.earth.position.set(
-      Math.cos(Date.now() * 0.001) * 15,
+      Math.cos(Date.now() * 0.0005) * 16,
       0,
-      Math.sin(Date.now() * 0.001) * 20
+      Math.sin(Date.now() * 0.0005) * 10
     );
   }
 
 
   marsOrbit = () => {
     this.mars.position.set(
-      Math.cos(Date.now() * 0.001) * 20,
+      Math.cos(Date.now() * 0.0003) * 24,
       0,
-      Math.sin(Date.now() * 0.001) * 25
+      Math.sin(Date.now() * 0.0003) * 15
     );
   }
 
 
   jupiterOrbit = () => {
     this.jupiter.position.set(
-      Math.cos(Date.now() * 0.001) * 25,
+      Math.cos((Date.now() + 100) * 0.0002) * 45,
       0,
-      Math.sin(Date.now() * 0.001) * 30
+      Math.sin((Date.now() + 100)* 0.0002) * 29
     );
   }
 
 
   saturnOrbit = () => {
     this.saturn.position.set(
-      Math.cos(Date.now() * 0.001) * 30,
+      Math.cos(Date.now() * 0.00015) * 61,
       0,
-      Math.sin(Date.now() * 0.001) * 35
+      Math.sin(Date.now() * 0.00015) * 40
     );
   }
 
 
   uranusOrbit = () => {
     this.uranus.position.set(
-      Math.cos(Date.now() * 0.001) * 35,
+      Math.cos((Date.now() + 13) * 0.00012) * 68,
       0,
-      Math.sin(Date.now() * 0.001) * 40
+      Math.sin((Date.now() + 13) * 0.00012) * 48
     );
   }
 
 
   neptuneOrbit = () => {
     this.neptune.position.set(
-      Math.cos(Date.now() * 0.001) * 40,
+      Math.cos(Date.now() * 0.0001) * 80,
       0,
-      Math.sin(Date.now() * 0.001) * 45
+      Math.sin(Date.now() * 0.0001) * 54
     );
   }
 
